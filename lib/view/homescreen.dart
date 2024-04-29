@@ -1,7 +1,10 @@
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:monday15/controller/homescreencontroller.dart';
+import 'package:monday15/view/imageloading/loading.dart';
+import 'package:monday15/view/second/detailscreen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,25 +41,47 @@ class _HomeScreenState extends State<HomeScreen> {
        
   body: ProviderObj.isloading?
   Center(
-    child: CircularProgressIndicator(),
+    child: Loading(),
   ):ListView.builder(itemCount: ProviderObj.resCategory?.articles?.length?? 0,
   itemBuilder: (context, index) {
-    return Container(
-      color: Colors.blue.shade100 ,
-      child: Column(
-        children:[Container(
-          height: 200,width: double.infinity,
-          child:  Image.network("${ProviderObj.resCategory?.articles?[index].urlToImage}",
-        fit: BoxFit.fill,),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+      child:InkWell(
+         onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailNewsScreen(
+                                      articles: ProviderObj
+                                          .resCategory?.articles?[index]),
+                                ));
+                          },
+        child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 15),
+                              decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 102, 123, 141),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                children: [
+                                  CachedNetworkImage(
+                                    height: 200,
+                                    imageUrl:   "${ProviderObj.resCategory?.articles?[index].urlToImage}",
+                                    errorWidget: (context, url, error) => Image.asset(
+                                        "assets/images/no image.png"),
+                                  ),
+                                  Text(
+                                      "${ProviderObj.resCategory?.articles?[index].title?.toUpperCase()}",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                              
+                                ],
+                              ),
+                            ),
       ),
-      
-   
-    Text("${ProviderObj.resCategory?.articles?[index].title?.toUpperCase()}"),
-   ]) );
-  })
-    ));
-  
-  }
-      
-  }
-
+                        );
+  })));
+                    }
+}

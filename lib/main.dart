@@ -1,8 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:monday15/controller/homescreencontroller.dart';
-
-import 'package:monday15/view/homescreen.dart';
+import 'package:monday15/view/splash/splashscreen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,6 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [ChangeNotifierProvider(create: (context) => HomeScreenController()),
     // ChangeNotifierProvider(create: (context) => SportsApiController(),)]
-   ] ,child: MaterialApp(home: HomeScreen()));
+   ] ,child: MaterialApp(home: SplashScreen()));
   }
 }
